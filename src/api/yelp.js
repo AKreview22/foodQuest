@@ -23,4 +23,14 @@ const searchBusinesses = async (searchQuery, location, limit = 50) => {
   }
 };
 
-export default searchBusinesses;
+const searchBusinessByID = async (businessID) => {
+  try {
+    const response = await client.get(businessID);
+    return response.data;
+  } catch (error) {
+    console.error("Error searching business by ID:", error);
+    throw error;
+  }
+};
+
+export { searchBusinesses, searchBusinessByID };

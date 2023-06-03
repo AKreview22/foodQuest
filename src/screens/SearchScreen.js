@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { View, Text, StyleSheet, ScrollView } from "react-native";
+import { ActivityIndicator, Divider, List } from "react-native-paper";
 import CustomSearchBar from "../components/CustomSearchBar";
 import useResults from "../hooks/useResults";
 import ResultsList from "../components/ResultsList";
@@ -10,8 +10,8 @@ const SearchScreen = () => {
   const [searchApi, results, isLoading] = useResults();
 
   const filterResultsByPrice = (price) => {
-    return results.filter((results) => {
-      return results.price === price;
+    return results.filter((result) => {
+      return result.price === price;
     });
   };
 
@@ -25,21 +25,22 @@ const SearchScreen = () => {
       {isLoading ? (
         <ActivityIndicator style={styles.loader} size="large" />
       ) : (
-        <>
-          <Text>We found {results.length} places</Text>
-          <ResultsList
-            results={filterResultsByPrice("$")}
-            title="Cost Effective"
-          />
-          <ResultsList
-            results={filterResultsByPrice("$$")}
-            title="Bit Pricer"
-          />
-          <ResultsList
-            results={filterResultsByPrice("$$$")}
-            title="Big Spender"
-          />
-        </>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <List.Section>
+            <ResultsList
+              results={filterResultsByPrice("$")}
+              title="Cost Effective"
+            />
+            <ResultsList
+              results={filterResultsByPrice("$$")}
+              title="Bit Pricer"
+            />
+            <ResultsList
+              results={filterResultsByPrice("$$$")}
+              title="Big Spender"
+            />
+          </List.Section>
+        </ScrollView>
       )}
     </View>
   );
@@ -52,6 +53,9 @@ const styles = StyleSheet.create({
   },
   loader: {
     marginTop: 10,
+  },
+  divider: {
+    marginVertical: 10,
   },
 });
 
